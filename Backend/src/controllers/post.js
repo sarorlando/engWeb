@@ -11,7 +11,7 @@ export async function createTable() {
 
 export async function getUser() {
     return openDb().then(db => {
-        return db.all('SELECT name, email FROM User').then(res => res)
+        return db.all('SELECT name, email, password FROM User').then(res => res)
     });
 }
 
@@ -30,16 +30,16 @@ export async function getPosts() {
 }
 
 export async function createPost(_post) {
-    
-    if(_post.title.match(/.*\S.*/) && _post.content.match(/.*\S.*/)) {
+
+    if (_post.title.match(/.*\S.*/) && _post.content.match(/.*\S.*/)) {
         let id = uuidv4();
         let created_at = new Date();
         let updated_at = new Date();
 
         openDb().then(db => {
-            db.run('INSERT INTO Posts (id, title, subtitle, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)', 
-            [id, _post.title, _post.subtitle, _post.content, created_at, updated_at])
-        });    
+            db.run('INSERT INTO Posts (id, title, subtitle, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)',
+                [id, _post.title, _post.subtitle, _post.content, created_at, updated_at])
+        });
     } else {
         throw new Error("Entrada inválida, tente novamente.");
     }
@@ -47,7 +47,7 @@ export async function createPost(_post) {
 
 export async function deletePost(_id) {
     return openDb().then(db => {
-        return db.all('DELETE FROM Posts WHERE id=?',[_id]).then(res => res)
+        return db.all('DELETE FROM Posts WHERE id=?', [_id]).then(res => res)
     });
 }
 
